@@ -3,13 +3,14 @@ import './App.css';
 import Dashboard from '../Dashboard/Dashboard';
 import Preferences from '../Preferences/Preferences';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import LoginPage from '../Login/LoginPage';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // import { Routes ,Route, Switch } from 'react-router-dom';
 
 function Login() {
   return (
     <div className="wrapper">
-      <h1>Bora logar?</h1>
+      <LoginPage />
       <BrowserRouter>
         <Switch>
             <Route path="/dashboard" >             
