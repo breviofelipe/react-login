@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Login.css';
+import {autenticar} from '../../services/login'
 
 export default function LoginPage() {
+
+  useEffect(()=>{
+
+    autenticar('user', 'password').then(response => {
+      console.log(response);
+    })
+  },[])
+
   return(
     <div>
       <head>
