@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Login.css';
 import {autenticar} from '../../services/login'
+import { useForm } from 'react-hook-form';
 
 export default function LoginPage() {
 
-  useEffect(()=>{
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    autenticar('user', 'password').then(response => {
-      console.log(response);
-    })
-  },[])
+
+  const onSubmit = (data) => {
+    console.log(data);
+    autenticar(data.user, data.password).then(res => console.log(res))
+  };
+
 
   return(
     <div>
@@ -23,14 +30,24 @@ export default function LoginPage() {
         <div class="shape"></div>
         <div class="shape"></div>
       </div>
-      <form >
+      <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Bora logar?</h3>
         
           <label for="username">Usuário</label>
-          <input type="text" placeholder="Email ou Usuário" />
+          <input type="text" placeholder="Email ou Usuário" id='user' {...register("user", {required: true})}/>
+          {errors.user && errors.user.type === "required" && (
+            <p className="errorMsg">Digite o usuário.</p>
+          )}
           <label for="password">Senha</label>
-          <input type="password" placeholder="Password" id="password"></input>
-        
+          <input type="password" placeholder="Password" id="password" {...register("password", {required: true, minLength: 6})} />
+          {errors.password && errors.password.type === "required" && (
+            <p className="errorMsg">Digite a senha.</p>
+          )}
+          {errors.password && errors.password.type === "minLength" && (
+            <p className="errorMsg">
+              Senha curta. Minimo 6 caracteres
+            </p>
+          )}
         <div>
           <button type="submit">entrar</button>
         </div>
