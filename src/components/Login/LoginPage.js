@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
 import {autenticar} from '../../services/login'
 import { useForm } from 'react-hook-form';
+import { Alert, Collapse } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export default function LoginPage() {
 
@@ -11,11 +13,22 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm();
 
-
+  const [open, setOpen] = useState(false);
+  const [openErro, setOpenErro] = useState(false);
+  const [token, setToken] = useState("XXXXXXXX");
   const onSubmit = (data) => {
     console.log(data);
-    autenticar(data.user, data.password).then(res => console.log(res))
+    autenticar(data.user, data.password).then(res => {
+      console.log(res)
+      if(res.token){
+        setToken(res.token)
+        setOpen(true)
+      } else {
+        setOpenErro(true)
+      }
+    })
   };
+
 
 
   return(
@@ -26,6 +39,17 @@ export default function LoginPage() {
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet"></link>  
       </head>      
       <body>
+      <Collapse in={openErro}>
+        <Alert onClose={() => {setOpenErro(false)}} severity="error">Usuário invalido</Alert>
+      </Collapse>
+      <Collapse in={open}>
+        <Alert onClose={() => {setOpen(false)}}
+          iconMapping={{
+            success: <CheckCircleOutlineIcon fontSize="inherit" />,
+          }}
+        >Usuário logado com sucesso token = {token}</Alert>
+      </Collapse>
+     
       <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
