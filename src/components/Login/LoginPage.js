@@ -3,6 +3,7 @@ import './Login.css';
 import {autenticar} from '../../services/login'
 import { useForm } from 'react-hook-form';
 import { Alert, Collapse } from '@mui/material';
+import AlertTitle from '@mui/material/AlertTitle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export default function LoginPage() {
@@ -40,14 +41,18 @@ export default function LoginPage() {
       </head>      
       <body>
       <Collapse in={openErro}>
-        <Alert onClose={() => {setOpenErro(false)}} severity="error">Usuário invalido</Alert>
+        <Alert onClose={() => {setOpenErro(false)}} severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Usuário invalido</Alert>
       </Collapse>
       <Collapse in={open}>
         <Alert onClose={() => {setOpen(false)}}
           iconMapping={{
             success: <CheckCircleOutlineIcon fontSize="inherit" />,
           }}
-        >Usuário logado com sucesso token = {token}</Alert>
+        >
+          <AlertTitle>Success</AlertTitle>
+          Usuário logado com sucesso token = {token}</Alert>
       </Collapse>
      
       <div class="background">
