@@ -1,8 +1,8 @@
-import './App.css';
-import Login from './components/App/App';
+import './App.css'
+import Router from './routes'
 
-function App() {
-  return (<Login />);
+function App () {
+  return (<Router />)
 }
 
-export default App;
+export default App
