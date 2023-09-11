@@ -2,14 +2,20 @@ import React, { useEffect, useState } from 'react'
 import './TaskList.css'
 import TaskItem from './item/TaskItem'
 import { tasks } from '../../../../services/tasks'
+import { useNavigate } from 'react-router-dom'
 
 export default function TaskList () {
   const [listTasks, setTasks] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     tasks().then(response => {
-      console.log(response)
-      setTasks(response)
+      if (response) {
+        setTasks(response)
+      } else {
+        localStorage.clear()
+        navigate('login')
+      }
     })
   }, [])
 

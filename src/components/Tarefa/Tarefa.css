@@ -9,6 +9,42 @@ textarea {
     font-size: 14px;
     font-weight: 300;
 }
+
+.cardNewTask{
+    position: relative;
+    max-width: 30rem;
+	margin: 2rem auto; 
+	padding: 2rem 1rem 1rem;
+    background-color: #080710;
+    background-color: rgba(255,255,255,0.13);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 50px 35px;
+}
+
+.cardNewTask .datepicker{
+    width: 25rem;
+}
+
+.alertTarefa{
+    position: absolute;
+    width: 100%;
+}
+
+.datepicker {
+    display: block;
+    width: 100%;
+}
+
+.colors{
+    --length: 5;
+    --l: 62%;
+    --h: calc((var(--i) - 1) * (180 / var(--length)));
+	--c1: hsl(var(--h), 7711%, var(--l));
+    color: var(--c1);
+}
 .errorMsg{
     color: coral;
 }

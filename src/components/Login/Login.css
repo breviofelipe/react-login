@@ -1,5 +1,20 @@
+.sectionLogin {
+  min-width: 430px;
+  overflow: 'auto';
+  background-color: #080710;
+  background-color: rgba(255,255,255,0.13);
+  transform: translate(-50%,-50%);
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  backdrop-filter: blur(10px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  padding: 50px 35px;
+}
 
-form{
+.form-default form{
     /* min-height: 720px; */
     width: 400px;
     transform: translate(-50%,-50%);
@@ -23,7 +38,10 @@ form h4{
     line-height: 42px;
     text-align: center;
 }
-
+.alertLogin{
+  position: absolute;
+  width: 100%;
+}
 label{
     display: block;
     margin-top: 30px;

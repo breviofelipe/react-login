@@ -1,5 +1,5 @@
 ol {
 	list-style: none;
 	counter-reset: list;
-	padding: 0 1rem;
+	padding: 0 5px;
 }

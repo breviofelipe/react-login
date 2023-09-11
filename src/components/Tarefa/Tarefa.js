@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import Select from 'react-select'
 
 import AlertTitle from '@mui/material/AlertTitle'
 
-import
+import DatePicker,
 { registerLocale }
   from 'react-datepicker'
 import ptBR from 'date-fns/locale/pt-BR'
@@ -28,6 +28,10 @@ export default function Tarefa () {
   const [open, setOpen] = useState(false)
   const [openErro, setOpenErro] = useState(false)
   const [tituloSalvo, setTitulo] = useState(false)
+  const [startDate, setStartDate] = useState(new Date())
+
+  // const startDate = new Date()
+
   const {
     register,
     handleSubmit,
@@ -36,24 +40,25 @@ export default function Tarefa () {
     formState: { errors }
   } = useForm()
 
-  // const DateInput = (props) => {
-  //   return (
-  //    <DatePicker
-  //       type="date"
-  //       locale="pt-br"
-  //       dateFormat="dd/MM/yyyy"
-  //       selected={props.startdate}
-  //       onChange={props.onChange}
-  //       value={props.value}
-  //       className={props.className}
-  //       />
-  //   )
-  // }
+  const DateInput = () => {
+    return (
+     <DatePicker
+        type="date"
+        locale="pt-br"
+        placeholderText='Data da entrega'
+        dateFormat="dd/MM/yyyy"
+        selected={startDate}
+        onChange={setStartDate}
+        value={startDate}
+        className='datepicker'
+        />
+    )
+  }
 
   const { field: { value: langValue, onChange: langOnChange, ...restLangField } } = useController({ name: 'prioridade', control })
   const colourStyles = {
-    singleValue: (styles) => ({ ...styles, color: 'white' }),
-    control: (styles, { isFocused }) => ({ ...styles, backgroundColor: 'rgba(255,255,255,0.07)', borderColor: isFocused ? 'red' : 'rgba(255,255,255,0.07)', color: isFocused ? 'green' : 'red' }),
+    singleValue: (styles, { data }) => ({ ...styles, color: data.color ? data.color : 'white' }),
+    control: (styles, { isFocused }) => ({ ...styles, backgroundColor: 'rgba(255,255,255,0.07)', borderColor: isFocused ? 'white' : 'rgba(255,255,255,0.07)' }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       const color = chroma(data.color)
       return {
@@ -64,7 +69,7 @@ export default function Tarefa () {
             ? data.color
             : isFocused
               ? color.alpha(0.1).css()
-              : undefined,
+              : '#404040',
         color: isDisabled
           ? '#ccc'
           : isSelected
@@ -86,11 +91,11 @@ export default function Tarefa () {
     }
   }
   const colourOptions = [
-    { value: '1', label: 'Ocean', color: '#00B8D9', isFixed: true },
-    { value: '2', label: 'Blue', color: '#0052CC', isDisabled: false },
-    { value: '3', label: 'Purple', color: '#5243AA' },
-    { value: '4', label: 'Red', color: '#FF5630', isFixed: true },
-    { value: '5', label: 'Green', color: '#FF8B00' }
+    { value: '1', label: 'Vermelho', color: '#e35959', isFixed: true },
+    { value: '2', label: 'Amarelo', color: '#e3ac59', isDisabled: false },
+    { value: '3', label: 'Limão', color: '#c7e359' },
+    { value: '6', label: 'Ciano', color: '#59e3e3', isFixed: true },
+    { value: '8', label: 'Roxo', color: '#7559e3' }
   ]
 
   const navigate = useNavigate()
@@ -110,15 +115,15 @@ export default function Tarefa () {
     const titulo = data.titulo
     const dataInicio = new Date().toUTCString()
     const descricao = data.descricao
-    const dataEntraga = new Date().toUTCString()
-    const prioridade = data.prioridade
+    const dataEntraga = startDate.toUTCString()
+    const cor = data.prioridade
 
     const body = {
       titulo,
       dataInicio,
       descricao,
       dataEntraga,
-      prioridade
+      cor
     }
 
     console.log('task body=' + body)
@@ -133,26 +138,8 @@ export default function Tarefa () {
       }
     })
   }
-  return <><Collapse in={openErro}>
-  <Alert onClose={() => {
-    setOpenErro(false)
-  }} severity="error">
-    <AlertTitle>Ops...</AlertTitle>
-    Erro ao salvar tarefa</Alert>
-</Collapse>
-<Collapse in={open}>
-  <Alert onClose={() => {
-    setOpen(false)
-    handleClick('/')
-  }}
-    iconMapping={{
-      success: <CheckCircleOutlineIcon fontSize="inherit" />
-    }}
-  >
-    <AlertTitle>Success</AlertTitle>
-    Tarefa salva com sucesso id = {tituloSalvo}</Alert>
-</Collapse>
-  <section>
+  return <Fragment>
+  <div className='cardNewTask'>
 
     <form onSubmit={handleSubmit(onSubmit)}>
   <h4>Criar nova tarefa</h4>
@@ -164,8 +151,8 @@ export default function Tarefa () {
   )}
 
   <label htmlFor="titulo">Entrega</label>
-  {/* <DateInput /> */}
-  <input type="text" placeholder="Data da entrega" id='entrega' {...register('entrega', { required: true })}/>
+  <DateInput id='entrega' />
+  {/* <input type="text" placeholder="Data da entrega" /> */}
   {errors.entrega && errors.entrega.type === 'required' && (
         <p className="errorMsg">Digite a data da entrega.</p>
   )}
@@ -185,8 +172,36 @@ export default function Tarefa () {
   {errors.descricao && errors.descricao.type === 'required' && (
         <p className="errorMsg">Digite a descricao.</p>
   )}
+
+  {errors.descricao && errors.descricao.type === 'minLength' && (
+        <p className="errorMsg">Descrição muito curta.</p>
+  )}
+
 <div>
   <button type="submit">salvar</button>
 </div>
-</form></section></>
+</form>
+</div>
+<div className='alertTarefa'>
+  <Collapse in={openErro}>
+    <Alert onClose={() => {
+      setOpenErro(false)
+    }} severity="error">
+      <AlertTitle>Ops...</AlertTitle>
+      Erro ao salvar tarefa</Alert>
+  </Collapse>
+  <Collapse in={open}>
+    <Alert onClose={() => {
+      setOpen(false)
+      handleClick('/')
+    }}
+      iconMapping={{
+        success: <CheckCircleOutlineIcon fontSize="inherit" />
+      }}
+    >
+      <AlertTitle>Sucesso</AlertTitle>
+      Tarefa {tituloSalvo} salva com sucesso</Alert>
+  </Collapse>
+</div>
+</Fragment>
 }

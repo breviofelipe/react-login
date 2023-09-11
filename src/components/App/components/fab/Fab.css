@@ -5,8 +5,8 @@
   padding: 0;
   flex-direction: column-reverse;
   position: fixed;
-  right: 5em;
-  bottom: 5em;
+  right: 1em;
+  bottom: 3em;
   max-height: 52px;
 }
 .fab-container.open {
@@ -24,7 +24,7 @@
   position: relative;
 }
 .fab-container .fab-button {
-  background-color: #00a8ff;
+  background-color: rgba(255,255,255,0.13);
 }
 .fab-container .fab-button svg {
   fill: white;
@@ -46,8 +46,8 @@
   padding: 4px 6px;
   font-size: 12px;
   position: absolute;
-  left: -12px;
-  transform: translateX(-75%);
+  left: -2px;
+  transform: translateX(-95%);
   background-color: #353b48;
   border-radius: 4px;
   color: white;

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import cn from 'classnames'
-import { MdAdd } from 'react-icons/md'
+
+import { FcMenu } from 'react-icons/fc'
 
 import './Fab.css'
 
@@ -20,7 +21,7 @@ const FAB = ({ actions }) => {
       onMouseLeave={mouseLeave}
     >
       <li className="fab-button">
-        <MdAdd />
+        <FcMenu />
       </li>
       {actions.map((action, index) => (
         <li

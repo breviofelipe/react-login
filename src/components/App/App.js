@@ -1,36 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { FcAbout, FcBusinessman, FcTodoList } from 'react-icons/fc'
+import { FcBusinessman, FcCheckmark, FcTodoList } from 'react-icons/fc'
+import { FaTheaterMasks } from 'react-icons/fa'
+import { CgLogOff } from 'react-icons/cg'
 import FAB from './components/fab/Fab'
+import PrimarySearchAppBar from './components/header/HeaderApp'
+import FooterApp from './components/footer/FooterApp'
 function App () {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userLogged, setUserLogged] = useState()
+  const checkUserToken = () => {
+    const userToken = localStorage.getItem('user-token')
+    const userName = localStorage.getItem('user-name')
+
+    if (!userToken || userToken === 'undefined') {
+      setIsLoggedIn(false)
+    }
+    setIsLoggedIn(true)
+    setUserLogged(userName)
+  }
+  useEffect(() => {
+    checkUserToken()
+  }, [isLoggedIn])
+
   const navigate = useNavigate()
   function handleClick (path) {
     navigate(path)
   }
 
   const actions = [
-    { label: 'Tarefas', icon: <FcTodoList />, onClick: () => handleClick('tarefa') },
-    { label: 'Montagem', icon: <FcAbout />, onClick: () => handleClick('/') },
-    { label: 'Alunos', icon: <FcBusinessman />, onClick: () => handleClick('login') }
+    { label: 'Tarefas', icon: <FcTodoList />, onClick: () => handleClick('/') },
+    { label: 'Nova tarefa', icon: <FcCheckmark />, onClick: () => handleClick('tarefa') },
+    { label: 'Alunos', icon: <FcBusinessman />, onClick: () => handleClick('login') },
+    { label: 'Elenco', icon: <FaTheaterMasks color='white' />, onClick: () => handleClick('/') },
+    {
+      label: 'Sair',
+      icon: <CgLogOff color='red' />,
+      onClick: () => {
+        localStorage.clear()
+        handleClick('/login')
+      }
+    }
   ]
 
   return <>
-        <head>
-            <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
-            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet"></link>
-        </head>
-            <div className="background">
-              <div className="shape"></div>
-              <div className="shape"></div>
-            </div>
-            {/* <section> */}
-              <div>
-                  <Outlet />
-              </div>
-            {/* </section> */}
-            <FAB actions={actions} />
+            {userLogged && <PrimarySearchAppBar />}
+              <Outlet />
+            {isLoggedIn && <FAB actions={actions} />}
+            {userLogged && <FooterApp />}
           </>
 }
 

@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:5000'
+// const baseUrl = 'http://192.168.0.6:5000'
+const baseUrl = 'https://hidden-beach-56074-0fd939fd2f6c.herokuapp.com'
 
 export async function autenticar (user, password) {
   try {
@@ -13,11 +14,9 @@ export async function autenticar (user, password) {
       data: body
     }
     const response = await axios(configurationObject)
-    console.log(response.data)
-
     return response.data
   } catch (error) {
     console.log(error)
-    return []
+    return error
   }
 }

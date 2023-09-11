@@ -1,0 +1,18 @@
+.appFooter{
+    color: 'white';
+    align-items: baseline;
+    justify-content: space-between;
+    text-align: end;  
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.appFooter .shape{
+    background: linear-gradient(
+        to right,
+        #ff512f,
+        #f09819
+    );
+    padding-right: 1em;   
+}
